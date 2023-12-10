@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProductsAPI.Models;
 using UstaYardımAPI.Models;
+using Microsoft.AspNetCore.HttpsPolicy; // Ekleyeceğiniz using direktifi
 
 
 var MyaAllowSpecificOrigins = "_myAllowSpecificOrigins";
