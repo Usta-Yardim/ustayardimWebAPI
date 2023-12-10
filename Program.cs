@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProductsAPI.Models;
 using UstaYardımAPI.Models;
-using Microsoft.AspNetCore.HttpsPolicy; // Ekleyeceğiniz using direktifi
+
 
 
 var MyaAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -94,14 +94,11 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 
-app.UseHttpsRedirection(new HttpsRedirectionOptions
-{
-    HttpsPort = 443, // HTTPS bağlantı noktasını belirtin
-});
+app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseRouting();
 app.UseCors(MyaAllowSpecificOrigins);
