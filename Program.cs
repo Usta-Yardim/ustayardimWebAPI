@@ -97,7 +97,10 @@ var app = builder.Build();
     app.UseSwaggerUI();
 
 
-app.UseHttpsRedirection();
+app.UseHttpsRedirection(new HttpsRedirectionOptions
+{
+    HttpsPort = 443, // HTTPS bağlantı noktasını belirtin
+});
 app.UseAuthentication();
 app.UseRouting();
 app.UseCors(MyaAllowSpecificOrigins);
