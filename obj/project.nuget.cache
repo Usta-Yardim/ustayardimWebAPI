@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5JJz4g+2if3ALjVM/tITKDn80vqa3xNaK0aeL04e7ye1cAWymA01EahKFZ049Ihfv1Pd+LDGhPhHMKkxvo2Vfw==",
+  "dgSpecHash": "sjq/FpecqhhoRnQlnRFsw/RVs+KSrdiq6R0S1ufqLQ6k/qAt2wqqTpXUMEGdG/kY8WiZFQ7qfbMuC2cEbp20Iw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\sefad\\source\\repos\\UstaYardımAPI\\UstaYardımAPI.csproj",
+  "projectFilePath": "C:\\Users\\sefad\\source\\UstaYardimAPI\\UstaYardımAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sefad\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\sefad\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.14\\microsoft.aspnetcore.authentication.jwtbearer.7.0.14.nupkg.sha512",

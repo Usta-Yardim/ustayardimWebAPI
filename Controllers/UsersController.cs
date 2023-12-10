@@ -101,9 +101,17 @@ namespace UstaYardımAPI.Controllers
 
             if(result.Succeeded)
             {
-                return Ok(
+                if (user.UserType == model.UserType)
+                {
+                    return Ok(
                     new { token = GenarateJWt(user)}
                 );
+                }
+                else
+                {
+                    return Unauthorized(new { message = "Sistemde böyle bir "+model.UserType+" kaydımız bulunmamaktadır."});
+                }
+                
             }
             else
             {

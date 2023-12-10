@@ -2203,11 +2203,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sefad\\source\\repos\\UstaYardımAPI\\UstaYardımAPI.csproj",
+      "projectUniqueName": "C:\\Users\\sefad\\source\\UstaYardimAPI\\UstaYardımAPI.csproj",
       "projectName": "UstaYardımAPI",
-      "projectPath": "C:\\Users\\sefad\\source\\repos\\UstaYardımAPI\\UstaYardımAPI.csproj",
+      "projectPath": "C:\\Users\\sefad\\source\\UstaYardimAPI\\UstaYardımAPI.csproj",
       "packagesPath": "C:\\Users\\sefad\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sefad\\source\\repos\\UstaYardımAPI\\obj\\",
+      "outputPath": "C:\\Users\\sefad\\source\\UstaYardimAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\sefad\\AppData\\Roaming\\NuGet\\NuGet.Config",
