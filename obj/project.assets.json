@@ -2203,21 +2203,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sefad\\source\\UstaYardimAPI\\UstaYardımAPI.csproj",
+      "projectUniqueName": "C:\\Users\\sefad\\OneDrive\\Masaüstü\\Repo\\UstaYardimAPI\\UstaYardımAPI.csproj",
       "projectName": "UstaYardımAPI",
-      "projectPath": "C:\\Users\\sefad\\source\\UstaYardimAPI\\UstaYardımAPI.csproj",
+      "projectPath": "C:\\Users\\sefad\\OneDrive\\Masaüstü\\Repo\\UstaYardimAPI\\UstaYardımAPI.csproj",
       "packagesPath": "C:\\Users\\sefad\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sefad\\source\\UstaYardimAPI\\obj\\",
+      "outputPath": "C:\\Users\\sefad\\OneDrive\\Masaüstü\\Repo\\UstaYardimAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\sefad\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\sefad\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -2286,7 +2284,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
       }
     }
   }

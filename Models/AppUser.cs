@@ -13,5 +13,8 @@ namespace ProductsAPI.Models
         public string FullName { get; set; } = null!;
         public string UserType { get; set; } = null!;
         public DateTime KayitTarihi { get; set; }
+        
+        // identity sınıfından dolayı email userıd gibi alanları ekleyemedik override istiyordu
+ 
     }
 }

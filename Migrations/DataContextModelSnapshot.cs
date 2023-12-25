@@ -253,6 +253,40 @@ namespace UstaYardımAPI.Migrations
                     b.ToTable("Galeri_Tables");
                 });
 
+            modelBuilder.Entity("UstaYardımAPI.Models.Ilceler", b =>
+                {
+                    b.Property<int>("IlceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("IlAdi")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("IlId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("IlceAdi")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("IlceId");
+
+                    b.ToTable("Ilceler");
+                });
+
+            modelBuilder.Entity("UstaYardımAPI.Models.Iller", b =>
+                {
+                    b.Property<int>("IlId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("IlAdi")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("IlId");
+
+                    b.ToTable("Iller");
+                });
+
             modelBuilder.Entity("UstaYardımAPI.Models.Kategoriler", b =>
                 {
                     b.Property<int>("KategoriId")
@@ -265,6 +299,32 @@ namespace UstaYardımAPI.Migrations
                     b.HasKey("KategoriId");
 
                     b.ToTable("Kategoriler");
+                });
+
+            modelBuilder.Entity("UstaYardımAPI.Models.Mahalleler", b =>
+                {
+                    b.Property<int>("MahalleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("IlAdi")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("IlId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("IlceAdi")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("IlceId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("MahalleAdi")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("MahalleId");
+
+                    b.ToTable("Mahalleler");
                 });
 
             modelBuilder.Entity("UstaYardımAPI.Models.Musteri_Table", b =>
@@ -287,45 +347,50 @@ namespace UstaYardımAPI.Migrations
                     b.ToTable("Musteriler");
                 });
 
-            modelBuilder.Entity("UstaYardımAPI.Models.Sehirler_Table", b =>
-                {
-                    b.Property<int>("SehirId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Il")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Ilce")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("SehirId");
-
-                    b.ToTable("Sehirler");
-                });
-
             modelBuilder.Entity("UstaYardımAPI.Models.Usta_Table", b =>
                 {
                     b.Property<int>("UstaId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Hakkinda")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("IlId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Puan")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("TamamlananIs")
-                        .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("UstaId");
+                    b.Property<DateTime?>("Birthday")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Hakkinda")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("IlceinfoIlceId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("IlinfoIlId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("MahalleinfoMahalleId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ProfilImgPath")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("Puan")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ReferansImgPath")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TamamlananIs")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UstaId", "UserId");
+
+                    b.HasIndex("IlceinfoIlceId");
+
+                    b.HasIndex("IlinfoIlId");
+
+                    b.HasIndex("MahalleinfoMahalleId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Ustalar");
                 });
@@ -396,6 +461,35 @@ namespace UstaYardımAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("UstaYardımAPI.Models.Usta_Table", b =>
+                {
+                    b.HasOne("UstaYardımAPI.Models.Ilceler", "Ilceinfo")
+                        .WithMany()
+                        .HasForeignKey("IlceinfoIlceId");
+
+                    b.HasOne("UstaYardımAPI.Models.Iller", "Ilinfo")
+                        .WithMany()
+                        .HasForeignKey("IlinfoIlId");
+
+                    b.HasOne("UstaYardımAPI.Models.Mahalleler", "Mahalleinfo")
+                        .WithMany()
+                        .HasForeignKey("MahalleinfoMahalleId");
+
+                    b.HasOne("ProductsAPI.Models.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ilceinfo");
+
+                    b.Navigation("Ilinfo");
+
+                    b.Navigation("Mahalleinfo");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

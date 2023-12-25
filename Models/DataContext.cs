@@ -18,6 +18,10 @@ namespace UstaYardımAPI.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+             modelBuilder.Entity<Usta_Table>()
+            .HasKey(ut => new { ut.UstaId, ut.UserId });
+
             
             /*modelBuilder.Entity<AppUser>().HasData(new AppUser() { UserId = 1, UserName = "Sefa", UserSurname = "Demirci", Eposta = "info@info.com", Sifre = "1234", KayitTarihi=DateTime.Now});
             modelBuilder.Entity<AppUser>().HasData(new AppUser() { UserId = 2, UserName = "Ebubekir Alp", UserSurname = "Elvan", Eposta = "info1@info.com", Sifre = "1234", KayitTarihi=DateTime.Now });
@@ -29,7 +33,9 @@ namespace UstaYardımAPI.Models
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Usta_Table> Ustalar { get; set; }
         public DbSet<Musteri_Table> Musteriler { get; set; }
-        public DbSet<Sehirler_Table> Sehirler { get; set; }
+        public DbSet<Iller> Iller { get; set; }
+       public DbSet<Ilceler> Ilceler { get; set; }
+        public DbSet<Mahalleler> Mahalleler { get; set; }
         public DbSet<Kategoriler> Kategoriler { get; set; }
         public DbSet<Galeri_Table> Galeri_Tables { get; set; }
         public DbSet<Evulation_Table> Evulation_Tables { get; set; }
