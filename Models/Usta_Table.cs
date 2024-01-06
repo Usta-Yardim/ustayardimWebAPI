@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using ProductsAPI.Models;
+using UstaYardimAPI.DTO;
 using UstaYardımAPI.DTO;
 
 namespace UstaYardımAPI.Models
@@ -12,14 +12,19 @@ namespace UstaYardımAPI.Models
     public class Usta_Table
     {
         [Key]
-        public int UstaId { get; set; }
         public int UserId { get; set; }  //user tablosuna referans
 
         [ForeignKey("UserId")]
-        public required AppUser User { get; set; }
+        public AppUser? User { get; set; }
         public string? ProfilImgPath { get; set; }
+        
+        [ForeignKey("IlinfoIlId")]
         public Iller? Ilinfo { get; set; }  // Sehir tablosuna referans
+        
+        [ForeignKey("IlceinfoIlceId")]
         public Ilceler? Ilceinfo { get; set; }  // Sehir tablosuna referans
+        
+        [ForeignKey("MahalleinfoMahalleId")]
         public Mahalleler? Mahalleinfo { get; set; }  // Sehir tablosuna referans
         public int? Puan { get; set; }
         public string? Hakkinda { get; set; }

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using ProductsAPI.Models;
+using UstaYardimAPI.DTO;
 using UstaYardımAPI.DTO;
 using UstaYardımAPI.Models;
 
@@ -23,12 +23,14 @@ namespace UstaYardımAPI.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IConfiguration _configuration; //token kullanmak için secret bilgisini al
+        private readonly DataContext _contextUstalar;
 
-        public UsersController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration configuration) // constructor
+        public UsersController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration configuration, DataContext contextUstalar) // constructor
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _contextUstalar = contextUstalar;
         }
 
         //localhost:5000/api/users => GET
@@ -70,16 +72,41 @@ namespace UstaYardımAPI.Controllers
             var user = new AppUser
             {
                 UserName = model.Email,
-                FullName = model.Fullname,
+                FullName = model.FullName,
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
                 UserType = model.UserType,
                 KayitTarihi = DateTime.Now,
             };
+            
+            
 
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if(result.Succeeded){
+                var createdUser = await _contextUstalar.AppUsers.Where(p => p.Email == model.Email).Select(p => AppUserToDTO(p)).FirstOrDefaultAsync();
+                
+
+                if (model.UserType == "usta")
+                {
+                    var usta = new Usta_Table
+                    {
+                        User = createdUser,
+                        UserId = createdUser.UserId,
+                    };
+                    _contextUstalar.Ustalar.Add(usta);
+                    await _contextUstalar.SaveChangesAsync();
+                }
+                /*else{
+                    var musteri = new Musteri_Table
+                    {
+                        User = createdUser,
+                        UserId = createdUser.Id,
+                    };
+                    _contextUstalar.Musteriler.Add(musteri);
+                    await _contextMusteriler.SaveChangesAsync();
+                }*/
+
                 return StatusCode(201);  // status code 201
             }
 
@@ -103,9 +130,13 @@ namespace UstaYardımAPI.Controllers
             {
                 if (user.UserType == model.UserType)
                 {
+                    var jwtData = GenarateJWt(user);
                     return Ok(
-                    new { token = GenarateJWt(user)}
-                );
+                        new { token = jwtData.Token,
+                              ExpiresTime = jwtData.ExpiresTime.Date,
+                              UserId = user.Id
+                            }
+                    );
                 }
                 else
                 {
@@ -121,7 +152,7 @@ namespace UstaYardımAPI.Controllers
             //return Unauthorized(); // status code 403 yetkin yok 
         }
 
-        private object GenarateJWt(AppUser user)
+        private (string Token, DateTime ExpiresTime) GenarateJWt(AppUser user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration.GetSection("AppSettings:Secret").Value ?? ""); //null ise boş string gönder
@@ -133,13 +164,14 @@ namespace UstaYardımAPI.Controllers
                         new Claim(ClaimTypes.Name, user.UserName ?? ""),
                     }
                 ),
-                Expires = DateTime.UtcNow.AddDays(1),
+                Expires = DateTime.UtcNow.AddDays(30),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
                 Issuer = "sefademirci.com"
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var tokenString = tokenHandler.WriteToken(token);
+            return (tokenString, tokenDescriptor.Expires ?? DateTime.MinValue);
         }
 
         /*[HttpPut("{id}")]  // Kullanıcıyı update et
@@ -204,6 +236,18 @@ namespace UstaYardımAPI.Controllers
         }*/
 
 
-
+        private static UsersDTO AppUserToDTO(AppUser p){
+            
+            var entity = new UsersDTO();
+            
+            if(p != null){
+                entity.UserId = p.Id;
+                entity.FullName = p.FullName;
+                entity.UserType = p.UserType;
+                entity.Email = p.Email;
+                entity.PhoneNumber = p.PhoneNumber; 
+            }
+            return entity;
+        }
     }
 }

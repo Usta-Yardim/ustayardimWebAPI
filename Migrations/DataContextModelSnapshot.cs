@@ -116,7 +116,7 @@ namespace UstaYardımAPI.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ProductsAPI.Models.AppRole", b =>
+            modelBuilder.Entity("UstaYardımAPI.Models.AppRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -143,7 +143,7 @@ namespace UstaYardımAPI.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("ProductsAPI.Models.AppUser", b =>
+            modelBuilder.Entity("UstaYardımAPI.Models.AppUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -233,7 +233,7 @@ namespace UstaYardımAPI.Migrations
 
                     b.HasKey("DegerlendirmeId");
 
-                    b.ToTable("Evulation_Tables");
+                    b.ToTable("Evulation_Tables", (string)null);
                 });
 
             modelBuilder.Entity("UstaYardımAPI.Models.Galeri_Table", b =>
@@ -250,7 +250,7 @@ namespace UstaYardımAPI.Migrations
 
                     b.HasKey("GaleriId");
 
-                    b.ToTable("Galeri_Tables");
+                    b.ToTable("Galeri_Tables", (string)null);
                 });
 
             modelBuilder.Entity("UstaYardımAPI.Models.Ilceler", b =>
@@ -270,7 +270,7 @@ namespace UstaYardımAPI.Migrations
 
                     b.HasKey("IlceId");
 
-                    b.ToTable("Ilceler");
+                    b.ToTable("Ilceler", (string)null);
                 });
 
             modelBuilder.Entity("UstaYardımAPI.Models.Iller", b =>
@@ -284,7 +284,7 @@ namespace UstaYardımAPI.Migrations
 
                     b.HasKey("IlId");
 
-                    b.ToTable("Iller");
+                    b.ToTable("Iller", (string)null);
                 });
 
             modelBuilder.Entity("UstaYardımAPI.Models.Kategoriler", b =>
@@ -298,7 +298,7 @@ namespace UstaYardımAPI.Migrations
 
                     b.HasKey("KategoriId");
 
-                    b.ToTable("Kategoriler");
+                    b.ToTable("Kategoriler", (string)null);
                 });
 
             modelBuilder.Entity("UstaYardımAPI.Models.Mahalleler", b =>
@@ -324,7 +324,7 @@ namespace UstaYardımAPI.Migrations
 
                     b.HasKey("MahalleId");
 
-                    b.ToTable("Mahalleler");
+                    b.ToTable("Mahalleler", (string)null);
                 });
 
             modelBuilder.Entity("UstaYardımAPI.Models.Musteri_Table", b =>
@@ -344,14 +344,11 @@ namespace UstaYardımAPI.Migrations
 
                     b.HasKey("MusteriId");
 
-                    b.ToTable("Musteriler");
+                    b.ToTable("Musteriler", (string)null);
                 });
 
             modelBuilder.Entity("UstaYardımAPI.Models.Usta_Table", b =>
                 {
-                    b.Property<int>("UstaId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
@@ -382,7 +379,7 @@ namespace UstaYardımAPI.Migrations
                     b.Property<string>("TamamlananIs")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("UstaId", "UserId");
+                    b.HasKey("UserId");
 
                     b.HasIndex("IlceinfoIlceId");
 
@@ -390,9 +387,7 @@ namespace UstaYardımAPI.Migrations
 
                     b.HasIndex("MahalleinfoMahalleId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Ustalar");
+                    b.ToTable("Ustalar", (string)null);
                 });
 
             modelBuilder.Entity("UstaYardımAPI.Models.Yorumlar_Table", b =>
@@ -409,12 +404,12 @@ namespace UstaYardımAPI.Migrations
 
                     b.HasKey("YorumId");
 
-                    b.ToTable("Yorumlar_Tables");
+                    b.ToTable("Yorumlar_Tables", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("ProductsAPI.Models.AppRole", null)
+                    b.HasOne("UstaYardımAPI.Models.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -423,7 +418,7 @@ namespace UstaYardımAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("ProductsAPI.Models.AppUser", null)
+                    b.HasOne("UstaYardımAPI.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -432,7 +427,7 @@ namespace UstaYardımAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("ProductsAPI.Models.AppUser", null)
+                    b.HasOne("UstaYardımAPI.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -441,13 +436,13 @@ namespace UstaYardımAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("ProductsAPI.Models.AppRole", null)
+                    b.HasOne("UstaYardımAPI.Models.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProductsAPI.Models.AppUser", null)
+                    b.HasOne("UstaYardımAPI.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -456,7 +451,7 @@ namespace UstaYardımAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("ProductsAPI.Models.AppUser", null)
+                    b.HasOne("UstaYardımAPI.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -477,7 +472,7 @@ namespace UstaYardımAPI.Migrations
                         .WithMany()
                         .HasForeignKey("MahalleinfoMahalleId");
 
-                    b.HasOne("ProductsAPI.Models.AppUser", "User")
+                    b.HasOne("UstaYardımAPI.Models.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

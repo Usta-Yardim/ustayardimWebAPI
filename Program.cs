@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using ProductsAPI.Models;
 using UstaYardımAPI.Models;
 
 
@@ -17,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddCors(options => {   // Tarayıcının hangi adreslerden istek aldığını girmek için kullalınılır fronted app işe yarar ama bacend isteklerinde güvenilir değil
     options.AddPolicy(MyAllowSpecificOrigins, policy => {
-            policy.WithOrigins("http://127.0.0.1:5500","http://localhost:5270")
+            policy.WithOrigins("http://127.0.0.1:5500","http://localhost:5270", "http://localhost:5270/Account","http://127.0.0.1:5270/")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });

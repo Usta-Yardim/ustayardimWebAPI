@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using ProductsAPI.Models;
 using UstaYardimAPI.DTO;
+using UstaYardımAPI.Controllers;
+using UstaYardımAPI.DTO;
 using UstaYardımAPI.Models;
 
 namespace UstaYardimAPI.Controllers
@@ -17,6 +18,7 @@ namespace UstaYardimAPI.Controllers
     public class AccountController : ControllerBase
     {
         private readonly DataContext  _contextUstalar;
+        public string? dateTime;
 
          public AccountController(DataContext contextUstalar) // constructor
         {
@@ -27,7 +29,9 @@ namespace UstaYardimAPI.Controllers
         [HttpGet("Ustalar")]
         public async Task<IActionResult> GetUstalar()
         {
-             var Ustalar = await _contextUstalar.Ustalar.Include(u => u.User).ToListAsync();
+             var Ustalar = await _contextUstalar.Ustalar.Include(u => u.User)
+                                                        .Include(u => u.Ilinfo)
+                                                        .Include(u => u.Ilceinfo).ToListAsync();
 
             return  Ok(Ustalar); // Ustalar null ise kendi değer gönder
         }
@@ -39,10 +43,19 @@ namespace UstaYardimAPI.Controllers
             {
                 return NotFound();
             }
-             var usta = await _contextUstalar.Ustalar.Include(p => p.User).Where(p => p.UstaId == id).Select(p => AccountToDTO(p, p.User)).FirstOrDefaultAsync();// usta null değilse FirsoD çalışır
+            var usta = await _contextUstalar.Ustalar.Include(p => p.User)
+                                                    .Include(u => u.Ilinfo)
+                                                    .Include(u => u.Ilceinfo)
+                                                    .Include(u => u.Mahalleinfo)
+                                                    .Where(p => p.UserId == id).Select(p => AccountToDTO(p, AppUserToDTO(p.User))).FirstOrDefaultAsync();// usta null değilse FirsoD çalışır
             
             if (usta == null){
                 return NotFound();
+            }
+
+            if(usta.Birthday != null){
+                dateTime = usta.Birthday.Value.ToString("yyyy-MM-dd");
+                usta.Birthday = DateTime.Parse(dateTime);
             }
 
             return  Ok(usta); // usta null ise kendi değer gönder
@@ -50,52 +63,104 @@ namespace UstaYardimAPI.Controllers
 
 
 
-        /*[HttpPut("{id}")]  // Kullanıcıyı update et
-        public async Task<IActionResult> UpdateUser(int id, AppUser entity)
+        [HttpPut("{id}")]  // Kullanıcıyı update et
+        public async Task<IActionResult> UpdateAccountInfoUsta(int id, AccountDTO entity)
         {
+            
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); // Model geçerli değilse, hata durumu ve mesajını döndür
+            }
 
             if(id != entity.UserId){
                 return BadRequest(); // id yanlış olursa status code 400 bad request
             }
 
-            var user = await _userManager.Users.FirstOrDefaultAsync(i => i.UserId == id);
+            var usta = await _contextUstalar.Ustalar.Include(p => p.User)
+                                                    .Include(u => u.Ilinfo)
+                                                    .Include(u => u.Ilceinfo)
+                                                    .Include(u => u.Mahalleinfo)
+                                                    .Where(p => p.UserId == id).FirstOrDefaultAsync();
 
-            if (user == null){ // user-id ve ve eposta aynı olmalı
+            if (usta == null){ // user-id ve ve eposta aynı olmalı
                 return NotFound();
             }
+            if(entity.Birthday != null){
+                dateTime = entity.Birthday.Value.ToString("yyyy-MM-dd");
+                usta.Birthday = DateTime.Parse(dateTime);
+            }
+            
+            usta.Hakkinda = entity.Hakkinda;
+            
+ 
+            if(entity.Ilinfo != null){
+                usta.Ilinfo = new Iller();
+                usta.Ilinfo = await _contextUstalar.Iller.Where(p => p.IlId == entity.Ilinfo.IlId).FirstOrDefaultAsync();
+            } 
+            if(entity.Ilceinfo != null){
+                usta.Ilceinfo = new Ilceler();
+                usta.Ilceinfo = await _contextUstalar.Ilceler.Where(p => p.IlceId == entity.Ilceinfo.IlceId).FirstOrDefaultAsync();
+            } 
 
-            user.UserName = entity.UserName;
-            user.UserSurname = entity.UserSurname;
-            user.Eposta = entity.Eposta;
-            user.Sifre = entity.Sifre;
-            user.IlId = entity.IlId;
+            if(entity.Mahalleinfo != null){
+                usta.Mahalleinfo = new Mahalleler();
+                usta.Mahalleinfo = await _contextUstalar.Mahalleler.Where(p => p.MahalleId == entity.Mahalleinfo.MahalleId).FirstOrDefaultAsync();
+            }
 
             try
             {
-                await _userManager.SaveChangesAsync();
+                await _contextUstalar.SaveChangesAsync();
             }
             catch (Exception)
             {
                 return NotFound();
             }
 
-            return Ok(user); // status code 204 güncelledim döndürecek bir şey yok
-        }*/
+
+            return Ok(AccountToDTO(usta,AppUserToDTO(usta.User))); // status code 201 güncelledim usta bilgilerini gönder
+        }
 
 
+         private static UsersDTO AppUserToDTO(AppUser? p){
+            
+            var entity = new UsersDTO();
+            
+            if(p != null){
+                entity.UserId = p.Id;
+                entity.FullName = p.FullName;
+                entity.UserType = p.UserType;
+                if (p.Email != null) {
+                    entity.Email = p.Email;
+                }
+                if (p.PhoneNumber != null) {
+                    entity.PhoneNumber = p.PhoneNumber;
+                }
+                if (p.PasswordHash != null) {
+                    entity.Password = p.PasswordHash;
+                } 
+            }
+            return entity;
+        }
 
-        private static AccountDTO AccountToDTO(Usta_Table p, AppUser UstaUser){
+        private static AccountDTO AccountToDTO(Usta_Table p, UsersDTO UstaUser){
             
             var entity = new AccountDTO();
             
             if(p != null){
-                entity.UstaId = p.UstaId;
                 entity.UserId = p.UserId;
                 entity.User = UstaUser;
                 entity.ProfilImgPath = p.ProfilImgPath;
-                entity.Ilinfo = p.Ilinfo;
-                entity.Ilceinfo = p.Ilceinfo;
-                entity.Mahalleinfo = p.Mahalleinfo;
+                if (p.Ilinfo != null) {
+                    entity.Ilinfo = AdressController.IllerToDTO(p.Ilinfo);
+                }
+
+                if (p.Ilceinfo != null) {
+                    entity.Ilceinfo = AdressController.IlcelerToDTO(p.Ilceinfo);
+                }
+
+                if (p.Mahalleinfo != null) {
+                    entity.Mahalleinfo = AdressController.MahallelerToDTO(p.Mahalleinfo);
+                }
                 entity.Puan = p.Puan;
                 entity.Hakkinda = p.Hakkinda;
                 entity.Birthday = p.Birthday;

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ProductsAPI.Models;
 using UstaYardımAPI.DTO;
 using UstaYardımAPI.Models;
 
@@ -176,7 +175,7 @@ namespace UstaYardımAPI.Controllers
             return Ok(user); 
         }*/
 
-         private static IllerDTO IllerToDTO(Iller p){
+         public static IllerDTO IllerToDTO(Iller p){
             
             var entity = new IllerDTO();
             
@@ -186,29 +185,23 @@ namespace UstaYardımAPI.Controllers
             }
             return entity;
         }
-         private static IlcelerDTO IlcelerToDTO(Ilceler p){
+         public static IlcelerDTO IlcelerToDTO(Ilceler p){
             
             var entity = new IlcelerDTO();
             
             if(p != null){
                 entity.IlceId = p.IlceId;
                 entity.IlceAdi = p.IlceAdi;
-                entity.IlId = p.IlId;
-                entity.IlAdi = p.IlAdi;
             }
             return entity;
         }
-         private static MahallelerDTO MahallelerToDTO(Mahalleler p){
+         public static MahallelerDTO MahallelerToDTO(Mahalleler p){
             
             var entity = new MahallelerDTO();
             
             if(p != null){
                 entity.MahalleId = p.MahalleId;
                 entity.MahalleAdi = p.MahalleAdi;
-                entity.IlceId = p.IlceId;
-                entity.IlceAdi = p.IlceAdi;
-                entity.IlId = p.IlId;
-                entity.IlAdi = p.IlAdi;
             }
             return entity;
         }

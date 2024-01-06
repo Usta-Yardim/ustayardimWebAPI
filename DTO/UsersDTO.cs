@@ -10,15 +10,15 @@ namespace UstaYardımAPI.DTO
     {
     
         [Required]
-        public string Fullname { get; set; } = null!;
+        public string FullName { get; set; } = null!;
         [Key]
+        [Required]
+        public int UserId { get; set; }
         [Required]
         public string Email { get; set; } = null!;
         [Required]
         public string PhoneNumber { get; set; } = null!;
-        [Required]
         public string UserType { get; set; } = null!;
-        [Required]
         public string Password { get; set; } = null!;
     }
 }

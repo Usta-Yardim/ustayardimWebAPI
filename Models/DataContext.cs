@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using ProductsAPI.Models;
+
 
 namespace UstaYardımAPI.Models
 {
@@ -19,10 +19,6 @@ namespace UstaYardımAPI.Models
         {
             base.OnModelCreating(modelBuilder);
 
-             modelBuilder.Entity<Usta_Table>()
-            .HasKey(ut => new { ut.UstaId, ut.UserId });
-
-            
             /*modelBuilder.Entity<AppUser>().HasData(new AppUser() { UserId = 1, UserName = "Sefa", UserSurname = "Demirci", Eposta = "info@info.com", Sifre = "1234", KayitTarihi=DateTime.Now});
             modelBuilder.Entity<AppUser>().HasData(new AppUser() { UserId = 2, UserName = "Ebubekir Alp", UserSurname = "Elvan", Eposta = "info1@info.com", Sifre = "1234", KayitTarihi=DateTime.Now });
             modelBuilder.Entity<AppUser>().HasData(new AppUser() { UserId = 3, UserName = "Iphone 16", UserSurname = "8000", Eposta = "info2@info.com", Sifre = "1234", KayitTarihi=DateTime.Now });

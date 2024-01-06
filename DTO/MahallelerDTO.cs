@@ -11,9 +11,6 @@ namespace UstaYardımAPI.DTO
         [Key]
         public int MahalleId { get; set; }
         public string? MahalleAdi { get; set; }
-        public int IlceId { get; set; }
-        public string? IlceAdi { get; set; }
-        public int IlId { get; set; }
-        public string? IlAdi { get; set; }
+        
     }
 }
