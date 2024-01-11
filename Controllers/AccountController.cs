@@ -203,6 +203,7 @@ namespace UstaYardimAPI.Controllers
             if(p != null){
                 entity.UserId = p.UserId;
                 entity.User = AppUserToDTO(p.User);
+                if(p.ProfilImgPath != null)
                 entity.ProfilImgPath = p.ProfilImgPath;
                 if (p.Ilinfo != null) {
                     entity.Ilinfo = AdressController.IllerToDTO(p.Ilinfo);
