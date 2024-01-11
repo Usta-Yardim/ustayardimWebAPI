@@ -87,7 +87,7 @@ namespace UstaYardımAPI.Controllers
                 var createdUser = await _contextUstalar.AppUsers.Where(p => p.Email == model.Email).Select(p => AppUserToDTO(p)).FirstOrDefaultAsync();
                 
 
-                if (model.UserType == "usta")
+                if (model.UserType == "usta" && createdUser != null)
                 {
                     var usta = new Usta_Table
                     {
@@ -244,8 +244,12 @@ namespace UstaYardımAPI.Controllers
                 entity.UserId = p.Id;
                 entity.FullName = p.FullName;
                 entity.UserType = p.UserType;
-                entity.Email = p.Email;
-                entity.PhoneNumber = p.PhoneNumber; 
+               if (p.Email != null) {
+                    entity.Email = p.Email;
+                }
+                if (p.PhoneNumber != null) {
+                    entity.PhoneNumber = p.PhoneNumber;
+                } 
             }
             return entity;
         }

@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using UstaYardımAPI.Models;
@@ -101,7 +102,11 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 
 
 app.UseHttpsRedirection();
-
+app.UseFileServer();
+app.UseStaticFiles( new StaticFileOptions{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "UsersImages")),
+    RequestPath = "/UsersImages"
+});
 app.UseAuthentication();
 app.UseRouting();
 app.UseCors(MyAllowSpecificOrigins);

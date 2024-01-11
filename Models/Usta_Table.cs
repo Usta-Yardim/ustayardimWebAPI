@@ -16,7 +16,7 @@ namespace UstaYardımAPI.Models
 
         [ForeignKey("UserId")]
         public AppUser? User { get; set; }
-        public string? ProfilImgPath { get; set; }
+        public string ProfilImgPath { get; set; } = null!;
         
         [ForeignKey("IlinfoIlId")]
         public Iller? Ilinfo { get; set; }  // Sehir tablosuna referans
@@ -32,4 +32,5 @@ namespace UstaYardımAPI.Models
         public string? TamamlananIs { get; set; }
         public string? ReferansImgPath { get; set; }
     }
+
 }
