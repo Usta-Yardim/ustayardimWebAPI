@@ -34,7 +34,8 @@ namespace UstaYardimAPI.Controllers
         {
              var Ustalar = await _contextUstalar.Ustalar.Include(u => u.User)
                                                         .Include(u => u.Ilinfo)
-                                                        .Include(u => u.Ilceinfo).ToListAsync();
+                                                        .Include(u => u.Ilceinfo)
+                                                        .Include(u => u.Mahalleinfo).ToListAsync();
 
             return  Ok(Ustalar); // Ustalar null ise kendi değer gönder
         }
@@ -203,6 +204,7 @@ namespace UstaYardimAPI.Controllers
             if(p != null){
                 entity.UserId = p.UserId;
                 entity.User = AppUserToDTO(p.User);
+                if(p.ProfilImgPath != null)
                 entity.ProfilImgPath = p.ProfilImgPath;
                 if (p.Ilinfo != null) {
                     entity.Ilinfo = AdressController.IllerToDTO(p.Ilinfo);

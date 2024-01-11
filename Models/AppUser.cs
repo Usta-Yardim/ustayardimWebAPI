@@ -17,7 +17,21 @@ namespace UstaYardımAPI.Models
 
         public static implicit operator AppUser?(UsersDTO? v)
         {
-            throw new NotImplementedException();
+           if (v == null)
+        {
+            return null;
+        }
+
+        // UsersDTO'dan AppUser'a dönüşümü gerçekleştir
+        return new AppUser
+        {
+            Id = v.UserId,
+            FullName = v.FullName,
+            UserType = v.UserType,
+            Email = v.Email,
+            PhoneNumber = v.PhoneNumber,
+            // Diğer özellikleri buraya ekleyin
+        };
         }
 
         // identity sınıfından dolayı email userıd gibi alanları ekleyemedik override istiyordu

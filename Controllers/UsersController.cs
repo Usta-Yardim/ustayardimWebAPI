@@ -61,7 +61,7 @@ namespace UstaYardımAPI.Controllers
         }*/
 
         [HttpPost("register")]  // Veri Ekleme db'ye
-        public async Task<IActionResult> CreateUser(UsersDTO model)
+        public async Task<IActionResult> CreateUser(RegisterDTO model)
         {
 
             if(!ModelState.IsValid)
@@ -84,7 +84,7 @@ namespace UstaYardımAPI.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if(result.Succeeded){
-                var createdUser = await _contextUstalar.AppUsers.Where(p => p.Email == model.Email).Select(p => AppUserToDTO(p)).FirstOrDefaultAsync();
+                var createdUser = await _userManager.FindByEmailAsync(model.Email);
                 
 
                 if (model.UserType == "usta" && createdUser != null)
@@ -92,22 +92,24 @@ namespace UstaYardımAPI.Controllers
                     var usta = new Usta_Table
                     {
                         User = createdUser,
-                        UserId = createdUser.UserId,
+                        UserId = createdUser.Id,
+                        
                     };
                     _contextUstalar.Ustalar.Add(usta);
                     await _contextUstalar.SaveChangesAsync();
+                     return StatusCode(201);
                 }
-                /*else{
+                if(model.UserType == "musteri" && createdUser != null){
+
                     var musteri = new Musteri_Table
                     {
                         User = createdUser,
                         UserId = createdUser.Id,
                     };
                     _contextUstalar.Musteriler.Add(musteri);
-                    await _contextMusteriler.SaveChangesAsync();
-                }*/
-
-                return StatusCode(201);  // status code 201
+                    await _contextUstalar.SaveChangesAsync(); //aslında contextustalar datacontexti gösterir düzeltilmeli ustalar tablosu ile alakası yok
+                     return StatusCode(201);
+                }
             }
 
             return BadRequest(result.Errors);
@@ -174,38 +176,7 @@ namespace UstaYardımAPI.Controllers
             return (tokenString, tokenDescriptor.Expires ?? DateTime.MinValue);
         }
 
-        /*[HttpPut("{id}")]  // Kullanıcıyı update et
-        public async Task<IActionResult> UpdateUser(int id, AppUser entity)
-        {
-
-            if(id != entity.UserId){
-                return BadRequest(); // id yanlış olursa status code 400 bad request
-            }
-
-            var user = await _userManager.Users.FirstOrDefaultAsync(i => i.UserId == id);
-
-            if (user == null){ // user-id ve ve eposta aynı olmalı
-                return NotFound();
-            }
-
-            user.UserName = entity.UserName;
-            user.UserSurname = entity.UserSurname;
-            user.Eposta = entity.Eposta;
-            user.Sifre = entity.Sifre;
-            user.IlId = entity.IlId;
-
-            try
-            {
-                await _userManager.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
-                return NotFound();
-            }
-
-            return Ok(user); // status code 204 güncelledim döndürecek bir şey yok
-        }
-
+        /*
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int? id)
         {
