@@ -15,7 +15,7 @@ namespace UstaYardımAPI.Models
         public string UserType { get; set; } = null!;
         public DateTime KayitTarihi { get; set; }
 
-        public static implicit operator AppUser?(UsersDTO? v)
+        public static implicit operator AppUser?(UserDTO? v)
         {
            if (v == null)
         {

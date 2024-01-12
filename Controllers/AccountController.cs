@@ -65,7 +65,7 @@ namespace UstaYardimAPI.Controllers
         [HttpPut("{id}")]  // Kullanıcıyı update et
         public async Task<IActionResult> UpdateAccountInfoUsta(int id, AccountDTO entity)
         {
-            
+            Console.WriteLine("Metoda giriş yapıldı");
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState); // Model geçerli değilse, hata durumu ve mesajını döndür
@@ -89,7 +89,7 @@ namespace UstaYardimAPI.Controllers
             
             if(entity.ActiveTabPane == "#account-general" && usta.User != null && entity.User != null){
                 try{
-                    if(entity.ProfilImgPath != null){
+                    if(entity.ProfilImgPath != null!){
                         var url = "http://localhost:5120/";
                         byte[] bytes = Convert.FromBase64String(entity.ProfilImgPath);
                         MemoryStream ms = new MemoryStream(bytes);
@@ -106,7 +106,7 @@ namespace UstaYardimAPI.Controllers
             if(entity.ActiveTabPane == "#account-change-password"){ // burasını düzeltilecek
                 //usta.User.PasswordHash = entity.User.Password;
                 bool isCurrentPasswordValid = false;
-                if(usta.User != null){
+                if(usta.User != null && entity.NewPassword != null && entity.OldPassword != null){
                     isCurrentPasswordValid = await _userManager.CheckPasswordAsync(usta.User, entity.OldPassword);
                 
                     if (!isCurrentPasswordValid)

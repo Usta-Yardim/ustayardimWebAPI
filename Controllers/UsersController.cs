@@ -33,33 +33,7 @@ namespace UstaYardımAPI.Controllers
             _contextUstalar = contextUstalar;
         }
 
-        //localhost:5000/api/users => GET
-       /* [HttpGet]
-        public async Task<IActionResult> GetUsers()
-        {
-             var users = await _userManager.Users.Select(p => UsersToDTO(p)).ToListAsync();
-
-            return  Ok(users); // users null ise kendi değer gönder
-        } */
-
-        //localhost:5000/api/users/1 => GET
-       /* [HttpGet("{id}")]
-        public async Task<IActionResult> GetUser(string? eposta)
-        {
-            if (eposta == null)
-            {
-                return NotFound();
-            }
-             //önce where ekledik ki bulamayınca hata vermesin. dto objesini değiştirdik
-            var p = await _userManager.Users.Select(p => UsersToDTO(p)).FirstOrDefaultAsync(i => i.Email == eposta);  // _products null değilse FirsoD çalışır
-
-            if (p == null){
-                return NotFound();
-            }
-
-            return  Ok(p);
-        }*/
-
+        
         [HttpPost("register")]  // Veri Ekleme db'ye
         public async Task<IActionResult> CreateUser(RegisterDTO model)
         {
@@ -176,53 +150,5 @@ namespace UstaYardımAPI.Controllers
             return (tokenString, tokenDescriptor.Expires ?? DateTime.MinValue);
         }
 
-        /*
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int? id)
-        {
-
-            if (id == null)
-            {
-                NotFound();
-            }
-            
-            var user = await _userManager.Users.FirstOrDefaultAsync(i => i.UserId == id);
-            
-            if (user == null){
-                return NotFound();
-            }
-    
-            _userManager.Users.Remove(user);
-
-            try
-            {
-                await _userManager.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
-                return NotFound();
-            }
-
-            return Ok(user); 
-        }*/
-
-
-        private static UsersDTO AppUserToDTO(AppUser p){
-            
-            var entity = new UsersDTO();
-            
-            if(p != null){
-                entity.UserId = p.Id;
-                entity.FullName = p.FullName;
-                entity.UserType = p.UserType;
-               if (p.Email != null) {
-                    entity.Email = p.Email;
-                }
-                if (p.PhoneNumber != null) {
-                    entity.PhoneNumber = p.PhoneNumber;
-                } 
-            }
-            return entity;
-        }
     }
 }
