@@ -15,7 +15,7 @@ namespace UstaYardımAPI.Models
         [ForeignKey("UserId")]
         public AppUser? User { get; set; }
         public string? ProfilImgPath { get; set; }
-        public int FavoriUstaId { get; set; } // Usta tablosuna referans
+        public string? FavoriUstaId { get; set; } // Usta tablosuna referans
          [ForeignKey("IlinfoIlId")]
         public Iller? Ilinfo { get; set; }  // Sehir tablosuna referans
         
