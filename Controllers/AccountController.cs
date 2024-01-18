@@ -35,7 +35,8 @@ namespace UstaYardimAPI.Controllers
              var Ustalar = await _contextUstalar.Ustalar.Include(u => u.User)
                                                         .Include(u => u.Ilinfo)
                                                         .Include(u => u.Ilceinfo)
-                                                        .Include(u => u.Mahalleinfo).ToListAsync();
+                                                        .Include(u => u.Mahalleinfo)
+                                                        .Include(u => u.Kategori).Select(p => AccountToDTO(p,"#account-general")).ToListAsync();
 
             return  Ok(Ustalar); // Ustalar null ise kendi değer gönder
         }
@@ -51,6 +52,7 @@ namespace UstaYardimAPI.Controllers
                                                     .Include(u => u.Ilinfo)
                                                     .Include(u => u.Ilceinfo)
                                                     .Include(u => u.Mahalleinfo)
+                                                    .Include(u => u.Kategori)
                                                     .Where(p => p.UserId == id).Select(p => AccountToDTO(p,"#account-general")).FirstOrDefaultAsync();// usta null değilse FirsoD çalışır
             
             if (usta == null){
@@ -97,6 +99,7 @@ namespace UstaYardimAPI.Controllers
                                                     .Include(u => u.Ilinfo)
                                                     .Include(u => u.Ilceinfo)
                                                     .Include(u => u.Mahalleinfo)
+                                                    .Include(u => u.Kategori)
                                                     .Where(p => p.UserId == id).FirstOrDefaultAsync();
 
             if (usta == null){ // user-id ve ve eposta aynı olmalı
@@ -184,7 +187,7 @@ namespace UstaYardimAPI.Controllers
             return Ok(AccountToDTO(usta,entity.ActiveTabPane)); // status code 201 güncelledim usta bilgilerini gönder
         }
         [HttpPut("MusteriUpdate/{id}")]  // Kullanıcıyı update et
-        public async Task<IActionResult> UpdateAccountInfoMusteri(int id, AccountDTO entity)
+        public async Task<IActionResult> UpdateAccountInfoMusteri(int id, MusteriDTO entity)
         {
             if (!ModelState.IsValid)
             {
@@ -290,7 +293,7 @@ namespace UstaYardimAPI.Controllers
             return entity;
         }
 
-        private static AccountDTO AccountToDTO(Usta_Table p, string ActiveTabPane){
+        public static AccountDTO AccountToDTO(Usta_Table p, string ActiveTabPane){
             
             var entity = new AccountDTO();
             
@@ -323,6 +326,10 @@ namespace UstaYardimAPI.Controllers
                 entity.Hakkinda = p.Hakkinda;
                 entity.Birthday = p.Birthday;
                 entity.TamamlananIs = p.TamamlananIs;
+                if(p.Kategori != null){
+                    entity.KategoriId = p.Kategori.Id;
+                    entity.KategoriName = p.Kategori.KategoriName;
+                }
                 if (ReferansImgPathsList != null)
                 entity.ReferansImgPath = ReferansImgPathsList; // burasının başına hepsine url eklemek gerekicek
                 entity.ActiveTabPane = ActiveTabPane;

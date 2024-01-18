@@ -26,9 +26,12 @@ namespace UstaYardimAPI.DTO
         public DateTime? Birthday { get; set; }
         public string? TamamlananIs { get; set; }
         public List<string>? ReferansImgPath { get; set; }
+        public int KategoriId { get; set; }
+        public string? KategoriName { get; set; }
         public string ActiveTabPane { get; set; } = "#account-general";
         public string? OldPassword { get; set; } 
         public string? NewPassword { get; set; }
+        
         
     }
 

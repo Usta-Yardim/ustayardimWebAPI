@@ -9,7 +9,7 @@ namespace UstaYardımAPI.Models
     public class Kategoriler
     {
         [Key]
-        public int KategoriId { get; set; }
+        public int Id { get; set; }
         public string? KategoriName { get; set; }
     }
 }

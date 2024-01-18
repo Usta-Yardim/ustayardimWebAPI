@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using UstaYardimAPI.DTO;
 using UstaYardımAPI.DTO;
@@ -31,6 +32,9 @@ namespace UstaYardımAPI.Models
         public DateTime? Birthday { get; set; }
         public string? TamamlananIs { get; set; }
         public string? ReferansImgPath { get; set; }
+        [ForeignKey("KategoriId")]  // Kategori tablosuna referans
+        [JsonIgnore]
+        public Kategoriler? Kategori { get; set; }
     }
 
 }

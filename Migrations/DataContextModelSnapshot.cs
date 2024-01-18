@@ -289,14 +289,14 @@ namespace UstaYardımAPI.Migrations
 
             modelBuilder.Entity("UstaYardımAPI.Models.Kategoriler", b =>
                 {
-                    b.Property<int>("KategoriId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("KategoriName")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("KategoriId");
+                    b.HasKey("Id");
 
                     b.ToTable("Kategoriler");
                 });
@@ -332,8 +332,8 @@ namespace UstaYardımAPI.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("FavoriUstaId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("FavoriUstaId")
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("IlceinfoIlceId")
                         .HasColumnType("INTEGER");
@@ -375,6 +375,9 @@ namespace UstaYardımAPI.Migrations
                     b.Property<int?>("IlinfoIlId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("KategoriId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int?>("MahalleinfoMahalleId")
                         .HasColumnType("INTEGER");
 
@@ -395,6 +398,8 @@ namespace UstaYardımAPI.Migrations
                     b.HasIndex("IlceinfoIlceId");
 
                     b.HasIndex("IlinfoIlId");
+
+                    b.HasIndex("KategoriId");
 
                     b.HasIndex("MahalleinfoMahalleId");
 
@@ -508,6 +513,10 @@ namespace UstaYardımAPI.Migrations
                         .WithMany()
                         .HasForeignKey("IlinfoIlId");
 
+                    b.HasOne("UstaYardımAPI.Models.Kategoriler", "Kategori")
+                        .WithMany()
+                        .HasForeignKey("KategoriId");
+
                     b.HasOne("UstaYardımAPI.Models.Mahalleler", "Mahalleinfo")
                         .WithMany()
                         .HasForeignKey("MahalleinfoMahalleId");
@@ -521,6 +530,8 @@ namespace UstaYardımAPI.Migrations
                     b.Navigation("Ilceinfo");
 
                     b.Navigation("Ilinfo");
+
+                    b.Navigation("Kategori");
 
                     b.Navigation("Mahalleinfo");
 
