@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using UstaYardimAPI.Controllers;
 using UstaYardımAPI.DTO;
 using UstaYardımAPI.Models;
 
@@ -64,6 +65,46 @@ namespace UstaYardımAPI.Controllers
             }
 
             return  Ok(Il); // Il null ise kendi değer gönder
+        }
+        [HttpGet("Iller/Ustalar/{id}")]
+        public async Task<IActionResult> GetIlUsta(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+             var Ustalar = await _contextIller.Ustalar.Where(p => p.Ilinfo!.IlId == id)
+                                                    .Include(p => p.User)
+                                                    .Include(u => u.Ilinfo)
+                                                    .Include(u => u.Ilceinfo)
+                                                    .Include(u => u.Mahalleinfo)
+                                                    .Include(u => u.Kategori).Select(p => AccountController.AccountToDTO(p,"#account-general")).ToListAsync();// Il null değilse FirsoD çalışır
+            
+            if (Ustalar == null){
+                return NotFound();
+            }
+
+            return  Ok(Ustalar); // Ustalar null ise kendi değer gönder
+        }
+        [HttpGet("Ilceler/Ustalar/{id}")]
+        public async Task<IActionResult> GetIlceUsta(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+             var Ustalar = await _contextIller.Ustalar.Where(p => p.Ilceinfo!.IlceId == id)
+                                                    .Include(p => p.User)
+                                                    .Include(u => u.Ilinfo)
+                                                    .Include(u => u.Ilceinfo)
+                                                    .Include(u => u.Mahalleinfo)
+                                                    .Include(u => u.Kategori).Select(p => AccountController.AccountToDTO(p,"#account-general")).ToListAsync();// Il null değilse FirsoD çalışır
+            
+            if (Ustalar == null){
+                return NotFound();
+            }
+
+            return  Ok(Ustalar); // Ustalar null ise kendi değer gönder
         }
         [HttpGet("Ilceler/{id}")]
         public async Task<IActionResult> GetIlce(int? id)
