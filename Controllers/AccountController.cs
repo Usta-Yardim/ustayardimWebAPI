@@ -160,7 +160,7 @@ namespace UstaYardimAPI.Controllers
 
                 usta.Birthday = entity.Birthday;
                 usta.Hakkinda = entity.Hakkinda;
-                usta.Kategori!.Id = entity.KategoriId;
+                usta.Kategori = await _contextUstalar.Kategoriler.Where(p => p.Id == entity.KategoriId).FirstOrDefaultAsync();
                 if(entity.Ilinfo != null){
                     usta.Ilinfo = new Iller();
                     usta.Ilinfo = await _contextUstalar.Iller.Where(p => p.IlId == entity.Ilinfo.IlId).FirstOrDefaultAsync();
