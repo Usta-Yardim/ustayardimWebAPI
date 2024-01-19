@@ -11,5 +11,6 @@ namespace UstaYardımAPI.Models
         [Key]
         public int Id { get; set; }
         public string? KategoriName { get; set; }
+        public string? KategoriUrl { get; set; }
     }
 }

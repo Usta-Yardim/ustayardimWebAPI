@@ -21,7 +21,7 @@ namespace UstaYardimAPI.DTO
         public IllerDTO? Ilinfo { get; set; }  // Sehir tablosuna referans
         public IlcelerDTO? Ilceinfo { get; set; }  // Sehir tablosuna referans
         public MahallelerDTO? Mahalleinfo { get; set; }  // Sehir tablosuna referans
-        public int? Puan { get; set; }
+        public double? Puan { get; set; }
         public string? Hakkinda { get; set; }
         public DateTime? Birthday { get; set; }
         public string? TamamlananIs { get; set; }

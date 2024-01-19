@@ -107,6 +107,10 @@ app.UseStaticFiles( new StaticFileOptions{
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "UsersImages")),
     RequestPath = "/UsersImages"
 });
+app.UseStaticFiles( new StaticFileOptions{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Kategoriler")),
+    RequestPath = "/Kategoriler"
+});
 app.UseAuthentication();
 app.UseRouting();
 app.UseCors(MyAllowSpecificOrigins);
